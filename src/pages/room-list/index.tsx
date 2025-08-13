@@ -1,7 +1,11 @@
 import { useRoom } from "../../entities/room/model/useRoom";
+import { useSession } from "../../entities/session";
+import { useUser } from "../../entities/user";
 
 export const RoomListPage = () => {
-  const { rooms, createRoom, joinRoomFromHash, shareRoom, removeRoom } = useRoom();
+  const { user } = useUser();
+  const { rooms, createRoom, addRoomFromHash, shareRoom, removeRoom } = useRoom();
+  const { joinSession } = useSession();
 
   const register = (formData: FormData) => {
     const displayName = formData.get("displayName");
@@ -11,12 +15,16 @@ export const RoomListPage = () => {
     createRoom(displayName as string);
   }
 
-  const join = (formData: FormData) => {
+  const add = (formData: FormData) => {
     const roomHash = formData.get("roomHash");
 
     if (!roomHash) return;
 
-    joinRoomFromHash(roomHash as string);
+    addRoomFromHash(roomHash as string);
+  }
+
+  if (!user) {
+    return <div>Usuário não cadastrado!</div>
   }
 
   return (
@@ -28,7 +36,7 @@ export const RoomListPage = () => {
         <button type="submit">Criar</button>
       </form>
       <h2>Adicionar sala</h2>
-      <form action={join}>
+      <form action={add}>
         <input type="text" name="roomHash" placeholder="Hash da sala" />
         <button type="submit">Adicionar</button>
       </form>
@@ -44,7 +52,7 @@ export const RoomListPage = () => {
             <tr key={room.id}>
               <th align="left">{room.displayName}</th>
               <th>
-                <button>Entrar</button>
+                <button onClick={() => joinSession(room.id, user.id)}>Entrar</button>
                 <button onClick={() => shareRoom(room)}>Compartilhar</button>
                 <button onClick={() => removeRoom(room)}>Remover</button>
               </th>
