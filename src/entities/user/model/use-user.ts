@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { generateId } from "../../../shared/lib/id"
-import { getUser, saveUser } from "../api/user-repository";
+import { getUserFromRepo, saveUserFromRepo } from "../api/user-repository";
 import { useUserStore } from "./user-store";
 
 export const useUser = () => {
@@ -13,11 +13,11 @@ export const useUser = () => {
     }
 
     setUser(newUser);
-    saveUser(newUser);
+    saveUserFromRepo(newUser);
   }
 
   useEffect(() => {
-    const localUser = getUser();
+    const localUser = getUserFromRepo();
     setUser(localUser);
   }, [])
 
