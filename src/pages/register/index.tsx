@@ -1,6 +1,6 @@
 import { useUser } from "../../entities/user"
 
-export const PeeringPage = () => {
+export const RegisterPage = () => {
     const { user, createUser } = useUser();
 
     const register = (formData: FormData) => {
