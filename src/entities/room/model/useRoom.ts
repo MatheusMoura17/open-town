@@ -11,7 +11,7 @@ export const useRoom = () => {
     setRooms(getRoomsFromRepo());
   }
 
-  const joinRoomFromHash = (hash: string) => {
+  const addRoomFromHash = (hash: string) => {
     const room = deserializeRoom(hash)
     saveRoomFromRepo(room);
     fetchRooms();
@@ -41,5 +41,5 @@ export const useRoom = () => {
     fetchRooms()
   }, [])
 
-  return { rooms, createRoom, joinRoomFromHash, removeRoom, shareRoom }
+  return { rooms, createRoom, addRoomFromHash, removeRoom, shareRoom }
 }
