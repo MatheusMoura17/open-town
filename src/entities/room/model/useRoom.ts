@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { generateId } from "../../../shared/lib/id"
-import { getRoomsFromRepo, saveRoomFromRepo, removeRoomFromRepo } from "../api/room-repository";
+import { getRoomsFromRepo, saveRoomFromRepo, removeRoomFromRepo, getRoomByIdFromRepo } from "../api/room-repository";
 import { useRoomStore } from "./room-store";
 import { deserializeRoom, serializeRoom, type IRoom } from "./room";
 
@@ -11,15 +11,15 @@ export const useRoom = () => {
     setRooms(getRoomsFromRepo());
   }
 
-  const addRoomFromHash = (hash?: string) : boolean => {
-      const room = deserializeRoom(hash)
-      
-      if(!room) return false;
+  const addRoomFromHash = (hash?: string): boolean => {
+    const room = deserializeRoom(hash)
 
-      saveRoomFromRepo(room);
-      fetchRooms();
+    if (!room) return false;
 
-      return true;
+    saveRoomFromRepo(room);
+    fetchRooms();
+
+    return true;
   }
 
   const removeRoom = (room: IRoom) => {
@@ -38,9 +38,13 @@ export const useRoom = () => {
     fetchRooms()
   }
 
+  const getRoomById = (roomId: string) => {
+    return getRoomByIdFromRepo(roomId);
+  }
+
   const shareRoom = (room: IRoom) => {
     const roomHash = serializeRoom(room);
-    const {origin} = window.location;
+    const { origin } = window.location;
     const url = `${origin}${import.meta.env.BASE_URL}#/add-room/${roomHash}`;
     navigator.clipboard.writeText(url)
     alert(`${url} copiado para area de transferencia!`);
@@ -50,5 +54,5 @@ export const useRoom = () => {
     fetchRooms()
   }, [])
 
-  return { rooms, createRoom, addRoomFromHash, removeRoom, shareRoom }
+  return { rooms, createRoom, addRoomFromHash, removeRoom, shareRoom, getRoomById }
 }

@@ -28,3 +28,9 @@ export const getRoomsFromRepo = () => {
   const rooms = raw ? JSON.parse(raw) as IRoom[] : [];
   return rooms;
 }
+
+export const getRoomByIdFromRepo = (roomId: string) => {
+  const raw = localStorage.getItem(ROOMS_KEY);
+  const rooms = raw ? JSON.parse(raw) as IRoom[] : [];
+  return rooms.find(room => room.id === roomId);
+}
