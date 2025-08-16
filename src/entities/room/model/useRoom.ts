@@ -11,10 +11,15 @@ export const useRoom = () => {
     setRooms(getRoomsFromRepo());
   }
 
-  const addRoomFromHash = (hash: string) => {
-    const room = deserializeRoom(hash)
-    saveRoomFromRepo(room);
-    fetchRooms();
+  const addRoomFromHash = (hash?: string) : boolean => {
+      const room = deserializeRoom(hash)
+      
+      if(!room) return false;
+
+      saveRoomFromRepo(room);
+      fetchRooms();
+
+      return true;
   }
 
   const removeRoom = (room: IRoom) => {
@@ -22,9 +27,10 @@ export const useRoom = () => {
     fetchRooms();
   }
 
-  const createRoom = (displayName: string) => {
+  const createRoom = (displayName: string, ownerId: string) => {
     const room = {
       id: generateId(),
+      ownerId,
       displayName,
     }
 
@@ -34,7 +40,10 @@ export const useRoom = () => {
 
   const shareRoom = (room: IRoom) => {
     const roomHash = serializeRoom(room);
-    alert(roomHash);
+    const {origin} = window.location;
+    const url = `${origin}${import.meta.env.BASE_URL}#/add-room/${roomHash}`;
+    navigator.clipboard.writeText(url)
+    alert(`${url} copiado para area de transferencia!`);
   }
 
   useEffect(() => {

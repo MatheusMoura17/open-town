@@ -1,18 +1,17 @@
 import { useRoom } from "../../entities/room/model/useRoom";
-import { useSession } from "../../entities/session";
 import { useUser } from "../../entities/user";
 
-export const RoomListPage = () => {
+export const HomePage = () => {
   const { user } = useUser();
   const { rooms, createRoom, addRoomFromHash, shareRoom, removeRoom } = useRoom();
-  const { joinSession } = useSession();
 
   const register = (formData: FormData) => {
     const displayName = formData.get("displayName");
 
     if (!displayName) return;
+    if (!user) return;
 
-    createRoom(displayName as string);
+    createRoom(displayName as string, user?.id);
   }
 
   const add = (formData: FormData) => {
@@ -52,7 +51,7 @@ export const RoomListPage = () => {
             <tr key={room.id}>
               <th align="left">{room.displayName}</th>
               <th>
-                <button onClick={() => joinSession(room.id, user.id)}>Entrar</button>
+                <button onClick={() => console.log(room.id)}>Entrar</button>
                 <button onClick={() => shareRoom(room)}>Compartilhar</button>
                 <button onClick={() => removeRoom(room)}>Remover</button>
               </th>

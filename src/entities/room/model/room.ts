@@ -1,17 +1,21 @@
 export interface IRoom {
   id: string
   displayName: string
+  ownerId: string
 }
 
 export const serializeRoom = (room: IRoom) => {
-  return `${room.id}:${btoa(room.displayName)}`
+  return btoa(JSON.stringify(room))
 }
 
-export const deserializeRoom = (hash: string) => {
-  const [id, base64] = hash.split(":");
-  const room: IRoom = {
-    id,
-    displayName: atob(base64)
+export const deserializeRoom = (hash?: string): IRoom | null => {
+  if (!hash) return null;
+
+  try {
+    const room = JSON.parse(atob(hash)) as IRoom
+    return room;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
-  return room;
 }
