@@ -16,7 +16,7 @@ export const Router = () => {
     <HashRouter>
       <Routes>
         <Route
-          path="/room/:roomId"
+          path={ROUTES.room.base}
           element={
             <RegisterWrapper>
               <RoomPage />

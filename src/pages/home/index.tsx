@@ -1,7 +1,10 @@
-import { useRoom } from "../../entities/room/model/useRoom";
+import { useNavigate } from "react-router-dom";
+import { useRoom, type IRoom } from "../../entities/room";
 import { useUser } from "../../entities/user";
+import { ROUTES } from "../../shared/config/routes";
 
 export const HomePage = () => {
+  const navigate = useNavigate();
   const { user } = useUser();
   const { rooms, createRoom, addRoomFromHash, shareRoom, removeRoom } = useRoom();
 
@@ -20,6 +23,10 @@ export const HomePage = () => {
     if (!roomHash) return;
 
     addRoomFromHash(roomHash as string);
+  }
+
+  const joinRoom = (room: IRoom) => {
+    navigate(ROUTES.room.factory(room.id));
   }
 
   if (!user) {
@@ -51,7 +58,7 @@ export const HomePage = () => {
             <tr key={room.id}>
               <th align="left">{room.displayName}</th>
               <th>
-                <button onClick={() => console.log(room.id)}>Entrar</button>
+                <button onClick={() => joinRoom(room)}>Entrar</button>
                 <button onClick={() => shareRoom(room)}>Compartilhar</button>
                 <button onClick={() => removeRoom(room)}>Remover</button>
               </th>
