@@ -1,0 +1,24 @@
+@use './variables' as *;
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 14px 20px;
+  background-color: $color-primary;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary-hover;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

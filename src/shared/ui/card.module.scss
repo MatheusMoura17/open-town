@@ -1,0 +1,10 @@
+@use './variables' as *;
+
+.card {
+  background-color: $color-card-bg;
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  width: 100%;
+  max-width: 360px;
+}

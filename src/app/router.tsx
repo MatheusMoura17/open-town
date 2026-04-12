@@ -1,42 +1,50 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { HomePage } from "../pages/home";
 import { RoomPage } from "../pages/room";
 import { AddRoomPage } from "../pages/add-room";
+import { QuickStartPage } from "../pages/quick-start";
 import { useUser } from "../entities/user";
-import { RegisterPage } from "../pages/register";
 import { ROUTES } from "../shared/config/routes";
 
-export const RegisterWrapper = ({ children }: React.PropsWithChildren) => {
+export const AuthGuard = ({ children }: React.PropsWithChildren) => {
   const { user } = useUser();
-  return user ? children : <RegisterPage />;
+
+  if (user === undefined) {
+    return null;
+  }
+
+  return user?.displayName
+    ? <>{children}</>
+    : <Navigate to={ROUTES.quickStart} replace />;
 };
 
 export const Router = () => {
   return (
     <HashRouter>
       <Routes>
+        <Route path={ROUTES.quickStart} element={<QuickStartPage />} />
         <Route
           path={ROUTES.room.base}
           element={
-            <RegisterWrapper>
+            <AuthGuard>
               <RoomPage />
-            </RegisterWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/add-room/:roomHash"
           element={
-            <RegisterWrapper>
+            <AuthGuard>
               <AddRoomPage />
-            </RegisterWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path={ROUTES.home}
           element={
-            <RegisterWrapper>
+            <AuthGuard>
               <HomePage />
-            </RegisterWrapper>
+            </AuthGuard>
           }
         />
       </Routes>
