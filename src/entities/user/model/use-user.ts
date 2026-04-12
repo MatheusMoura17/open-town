@@ -6,20 +6,21 @@ import { useUserStore } from "./user-store";
 export const useUser = () => {
   const { user, setUser } = useUserStore()
 
-  const createUser = (displayName: string) => {
-    const newUser = {
-      id: generateId(),
+  const saveUser = (displayName: string, pictureUrl: string, idForNewUser?: string) => {
+    const updatedUser = {
+      id: user?.id ?? idForNewUser ?? generateId(),
       displayName,
+      pictureUrl,
     }
 
-    setUser(newUser);
-    saveUserFromRepo(newUser);
+    setUser(updatedUser);
+    saveUserFromRepo(updatedUser);
   }
 
   useEffect(() => {
     const localUser = getUserFromRepo();
     setUser(localUser);
-  }, [])
+  }, [setUser])
 
-  return { user, createUser }
+  return { user, saveUser }
 }

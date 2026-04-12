@@ -1,0 +1,38 @@
+@use './variables' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid $color-input-border;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: $color-text;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s ease;
+
+  &::placeholder {
+    color: #9492c8;
+  }
+
+  &:focus {
+    border-color: $color-input-focus;
+  }
+
+  &.hasError {
+    border-color: $color-error;
+  }
+}
+
+.error {
+  font-size: 0.75rem;
+  color: $color-error;
+}

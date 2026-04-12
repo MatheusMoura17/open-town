@@ -1,0 +1,34 @@
+@use '../../shared/ui/variables' as *;
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: $color-bg;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $color-primary;
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+.uid {
+  font-size: 0.8rem;
+  color: $color-accent;
+  text-align: center;
+  margin-bottom: 20px;
+  word-break: break-all;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}

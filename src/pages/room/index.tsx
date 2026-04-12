@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useSessionClient, useSessionHost } from "../../entities/session";
 import { useUser, type IUser } from "../../entities/user";
 import { useRoom, type IRoom } from "../../entities/room";
+import { Chat } from "../../entities/chat";
 
 interface IProps {
   user: IUser
