@@ -1,8 +1,2 @@
-export interface IChatMessage {
-    sender: string;
-    text: string;
-}
-
-export interface IChat {
-    messages: IChatMessage
-}
+// Types moved to src/entities/room/model/room-message.ts
+// This file is intentionally empty.

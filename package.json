@@ -6,7 +6,7 @@
   "author": "Matheus Moura <matheus.moura13@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": "20"
+    "node": "24"
   },
   "scripts": {
     "dev": "vite --host 0.0.0.0",

@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-import { useRoom } from "../../entities/room";
+import { useRoomList } from "../../entities/room-list";
 import { ROUTES } from "../../shared/config/routes";
 
 export const AddRoomPage = () => {
     const { roomHash } = useParams();
     const navigate = useNavigate()
-    const { addRoomFromHash } = useRoom();
+    const { addRoomFromHash } = useRoomList();
 
     useEffect(() => {
         if (addRoomFromHash(roomHash)) {

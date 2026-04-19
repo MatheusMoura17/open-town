@@ -1,12 +1,22 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRoom, type IRoom } from "../../entities/room";
+import { useRoomList, type IRoom } from "../../entities/room-list";
 import { useUser } from "../../entities/user";
+import { useJoinRoom } from "../../features/join-room";
 import { ROUTES } from "../../shared/config/routes";
 
 export const HomePage = () => {
   const navigate = useNavigate();
   const { user } = useUser();
-  const { rooms, createRoom, addRoomFromHash, shareRoom, removeRoom } = useRoom();
+  const { rooms, createRoom, addRoomFromHash, shareRoom, removeRoom } = useRoomList();
+  const { join, status: joinStatus } = useJoinRoom();
+
+  useEffect(() => {
+    if (joinStatus === 'connected') {
+      // The roomId is the host's user ID — navigate when the status flips
+      // We don't have the roomId here directly, so we handle navigation in the form handler below
+    }
+  }, [joinStatus])
 
   const register = (formData: FormData) => {
     const displayName = formData.get("displayName");
@@ -14,7 +24,8 @@ export const HomePage = () => {
     if (!displayName) return;
     if (!user) return;
 
-    createRoom(displayName as string, user?.id);
+    createRoom(displayName as string, user.id, user.id);
+    navigate(ROUTES.room.factory(user.id));
   }
 
   const add = (formData: FormData) => {
@@ -23,6 +34,13 @@ export const HomePage = () => {
     if (!roomHash) return;
 
     addRoomFromHash(roomHash as string);
+  }
+
+  const handleJoin = (formData: FormData) => {
+    const roomId = formData.get("roomId") as string;
+    if (!roomId?.trim()) return;
+    join(roomId.trim());
+    navigate(ROUTES.room.factory(roomId.trim()));
   }
 
   const joinRoom = (room: IRoom) => {
@@ -41,12 +59,17 @@ export const HomePage = () => {
         <input type="text" name="displayName" placeholder="Nome da sala" />
         <button type="submit">Criar</button>
       </form>
-      <h2>Adicionar sala</h2>
+      <h2>Entrar numa sala</h2>
+      <form action={handleJoin}>
+        <input type="text" name="roomId" placeholder="ID do host" />
+        <button type="submit">Entrar</button>
+      </form>
+      <h2>Adicionar sala (hash)</h2>
       <form action={add}>
         <input type="text" name="roomHash" placeholder="Hash da sala" />
         <button type="submit">Adicionar</button>
       </form>
-      <h2>Salas</h2>
+      <h2>Salas salvas</h2>
       <table>
         <thead>
           <tr>
