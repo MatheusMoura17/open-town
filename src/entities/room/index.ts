@@ -1,2 +1,9 @@
-export {useRoom} from "./model/useRoom";
-export {deserializeRoom, type IRoom} from "./model/room";
+export { deserializeRoom, serializeRoom, type IRoom } from './model/room'
+export { type ChatMessage, type RoomMessage } from './model/room-message'
+export { type RoomState, type RoomStateSnapshot } from './model/room-state'
+export { createCommandDispatcher, type CommandDispatcher, type CommandHandlerMap } from './model/command-dispatcher'
+export { useHostRoomStateStore } from './model/host-room-state-store'
+export { useGuestRoomStateStore } from './model/guest-room-state-store'
+export { chatHandler } from './model/commands/chat-handler'
+export { useRoomHostSession } from './model/use-room-host-session'
+export { useRoomClientSession } from './model/use-room-client-session'
